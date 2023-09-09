@@ -34,20 +34,8 @@
   <body>
     <header>
       <a href="./">
-  
-<!-- Cambio en la imagen "Vector.png" para recargar la página sin navegación hacia atrás -->
-<img src="./assets/Vector.png" alt="Logo Alura" class="logo" id="reloadButton" style="cursor: pointer;" />
-
-<!-- Agrega este script JavaScript para recargar la página -->
-<script>
-  // Función para recargar la página sin navegación hacia atrás
-  document.getElementById('reloadButton').addEventListener('click', function(event) {
-    event.preventDefault(); // Evita la navegación hacia atrás
-    location.reload(); // Recarga la página
-  });
-</script>
-
-
+        <!-- Cambio en la imagen "Vector.png" para recargar la página sin navegación hacia atrás -->
+        <img src="./assets/Vector.png" alt="Logo Alura" class="logo" id="reloadButton" style="cursor: pointer;" />
       </a>
     </header>
 
@@ -60,6 +48,10 @@
           rows="10"
           placeholder="Ingrese el texto aqui"
         ></textarea>
+
+        <!-- Agrega campos para el nombre de usuario y correo electrónico -->
+        <input type="text" id="nombreUsuario" placeholder="Nombre de Usuario" />
+        <input type="email" id="correoElectronico" placeholder="Correo Electrónico" />
 
         <div class="group1">
           <div class="advertising">
@@ -74,6 +66,9 @@
           <div class="buttons">
             <button class="primary-button encriptar" onclick="encryptText()">Encriptar</button>
             <button class="secondary-button desencriptar" onclick="decryptText()">Desencriptar</button>
+
+            <!-- Agrega el botón "Guardar" -->
+            <button class="primary-button guardar" onclick="guardarDatos()">Guardar</button>
           </div>
         </div>
       </div>
@@ -124,80 +119,120 @@
         </ul>
       </div>
     </footer>
-<!-- ... (código HTML previo) ... -->
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.js"></script>
-<script>
-  // Función para encriptar el texto
-  function encryptText() {
-    const textToEncrypt = document.getElementById('entradaTexto').value;
-    const encryptionKey = 'tu_clave_secreta'; // Reemplaza con tu clave secreta
+    <!-- ... (código HTML previo) ... -->
 
-    // Utiliza AES para encriptar el texto
-    const encryptedText = CryptoJS.AES.encrypt(textToEncrypt, encryptionKey).toString();
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.js"></script>
+    <script>
+      // Función para encriptar el texto
+      function encryptText() {
+        const textToEncrypt = document.getElementById('entradaTexto').value;
+        const encryptionKey = 'tu_clave_secreta'; // Reemplaza con tu clave secreta
 
-    // Oculta la imagen de resultado y muestra el texto encriptado
-    document.getElementById('resultadoImagen').style.display = 'none';
-    document.getElementById('tituloResultado').textContent = 'Texto encriptado:';
-    document.getElementById('resultadoTexto').textContent = encryptedText;
-    document.querySelector('.copiar').style.display = 'inline-block';
-  }
+        // Utiliza AES para encriptar el texto
+        const encryptedText = CryptoJS.AES.encrypt(textToEncrypt, encryptionKey).toString();
 
-  // Función para desencriptar el texto
-  function decryptText() {
-    const encryptedText = document.getElementById('entradaTexto').value;
-    const encryptionKey = 'tu_clave_secreta'; // Reemplaza con tu clave secreta
+        // Oculta la imagen de resultado y muestra el texto encriptado
+        document.getElementById('resultadoImagen').style.display = 'none';
+        document.getElementById('tituloResultado').textContent = 'Texto encriptado:';
+        document.getElementById('resultadoTexto').textContent = encryptedText;
+        document.querySelector('.copiar').style.display = 'inline-block';
+      }
 
-    try {
-      // Utiliza AES para desencriptar el texto
-      const decryptedBytes = CryptoJS.AES.decrypt(encryptedText, encryptionKey);
-      const decryptedText = decryptedBytes.toString(CryptoJS.enc.Utf8);
+      // Función para desencriptar el texto
+      function decryptText() {
+        const encryptedText = document.getElementById('entradaTexto').value;
+        const encryptionKey = 'tu_clave_secreta'; // Reemplaza con tu clave secreta
 
-      // Oculta la imagen de resultado y muestra el texto desencriptado
-      document.getElementById('resultadoImagen').style.display = 'none';
-      document.getElementById('tituloResultado').textContent = 'Texto desencriptado:';
-      document.getElementById('resultadoTexto').textContent = decryptedText;
-      document.querySelector('.copiar').style.display = 'inline-block';
-    } catch (error) {
-      // En caso de error, muestra un mensaje de error y vuelve a ocultar la imagen
-      document.getElementById('resultadoImagen').style.display = 'none';
-      document.getElementById('tituloResultado').textContent = 'Error al desencriptar el texto. Asegúrate de usar la clave correcta.';
-      document.getElementById('resultadoTexto').textContent = '';
-      document.querySelector('.copiar').style.display = 'none';
-    }
-  }
+        try {
+          // Utiliza AES para desencriptar el texto
+          const decryptedBytes = CryptoJS.AES.decrypt(encryptedText, encryptionKey);
+          const decryptedText = decryptedBytes.toString(CryptoJS.enc.Utf8);
 
-  // Función para copiar el texto encriptado o desencriptado
-  function copyText() {
-    const resultadoTexto = document.getElementById('resultadoTexto');
-    const textToCopy = resultadoTexto.textContent;
+          // Oculta la imagen de resultado y muestra el texto desencriptado
+          document.getElementById('resultadoImagen').style.display = 'none';
+          document.getElementById('tituloResultado').textContent = 'Texto desencriptado:';
+          document.getElementById('resultadoTexto').textContent = decryptedText;
+          document.querySelector('.copiar').style.display = 'inline-block';
+        } catch (error) {
+          // En caso de error, muestra un mensaje de error y vuelve a ocultar la imagen
+          document.getElementById('resultadoImagen').style.display = 'none';
+          document.getElementById('tituloResultado').textContent = 'Error al desencriptar el texto. Asegúrate de usar la clave correcta.';
+          document.getElementById('resultadoTexto').textContent = '';
+          document.querySelector('.copiar').style.display = 'none';
+        }
+      }
 
-    // Crea un elemento de textarea para copiar el texto
-    const textArea = document.createElement('textarea');
-    textArea.value = textToCopy;
+      // Función para copiar el texto encriptado o desencriptado
+      function copyText() {
+        const resultadoTexto = document.getElementById('resultadoTexto');
+        const textToCopy = resultadoTexto.textContent;
 
-    // Agrega el elemento de textarea al DOM
-    document.body.appendChild(textArea);
+        // Crea un elemento de textarea para copiar el texto
+        const textArea = document.createElement('textarea');
+        textArea.value = textToCopy;
 
-    // Selecciona y copia el texto
-    textArea.select();
-    document.execCommand('copy');
+        // Agrega el elemento de textarea al DOM
+        document.body.appendChild(textArea);
 
-    // Remueve el elemento de textarea del DOM
-    document.body.removeChild(textArea);
+        // Selecciona y copia el texto
+        textArea.select();
+        document.execCommand('copy');
 
-    // Muestra una notificación de copiado exitoso
-    alert('Texto copiado al portapapeles: ' + textToCopy);
-  }
+        // Remueve el elemento de textarea del DOM
+        document.body.removeChild(textArea);
 
-  // Función para recargar la página
-  function resetPage() {
-    location.reload(); // Esto recargará la página
-  }
+        // Muestra una notificación de copiado exitoso
+        alert('Texto copiado al portapapeles: ' + textToCopy);
+      }
 
-  // Asigna la función resetPage al evento click de la imagen "Vector.png"
-  document.getElementById('resultadoImagen').addEventListener('click', resetPage);
-</script>
+      // Función para recargar la página
+      function resetPage() {
+        location.reload(); // Esto recargará la página
+      }
 
-</body>
+      // Asigna la función resetPage al evento click de la imagen "Vector.png"
+      document.getElementById('resultadoImagen').addEventListener('click', resetPage);
+
+      // Función para guardar los datos en un archivo de texto
+      function guardarDatos() {
+        // Obtener los valores de los campos de entrada
+        const nombreUsuario = document.getElementById('nombreUsuario').value;
+        const correoElectronico = document.getElementById('correoElectronico').value;
+
+        // Obtener el texto encriptado (previamente calculado en la función de encriptación)
+        const textoEncriptado = document.getElementById('resultadoTexto').textContent;
+
+        // Crear el contenido del archivo de texto
+        const contenidoArchivo = `Usuario: ${nombreUsuario}\nCorreo: ${correoElectronico}\nPassword: ${textoEncriptado}`;
+
+        // Crear un objeto Blob con el contenido
+        const blob = new Blob([contenidoArchivo], { type: 'text/plain' });
+
+        // Crear un enlace para descargar el archivo
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'datos.txt';
+
+        // Simular un clic en el enlace para iniciar la descarga
+        a.click();
+
+        // Liberar el objeto Blob
+        URL.revokeObjectURL(url);
+      }
+
+      // Función para generar una contraseña aleatoria (debes implementarla según tus necesidades)
+      function generarContrasenaAleatoria() {
+        // Implementa la generación de contraseñas aleatorias aquí
+        return 'ContraseñaAleatoria123';
+      }
+
+      // Función para encriptar texto (debes implementarla según tus necesidades)
+      function encriptarTexto(texto) {
+        // Implementa la encriptación de texto aquí
+        return texto;
+      }
+    </script>
+  </body>
 </html>
