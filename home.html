@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="./assets/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./assets/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="./assets/favicon-16x16.png"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/style1.css" />
+    <title>Encriptador de Texto</title>
+    <style>
+      /* Estilos campos de entrada de usuario y correo */
+      .input-container {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+      }
+
+      .input-container label {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      .input-container input {
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+      }
+
+      /* Estilos para centrar los campos de entrada y el botón */
+      .center-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="./">
+        <img
+          src="./assets/Vector.png"
+          alt="Logo Alura"
+          class="logo"
+          id="reloadButton"
+          style="cursor: pointer;"
+        />
+      </a>
+      <script>
+  // Función para recargar la página sin navegación hacia atrás
+  document.getElementById('reloadButton').addEventListener('click', function(event) {
+    event.preventDefault(); // Evita la navegación hacia atrás
+    location.reload(); // Recarga la página
+  });
+</script>
+    </header>
+
+    <div class="container">
+      <div class="subcontainer1 center-content">
+        <!-- Mejor formato para los campos de entrada de usuario y correo electrónico -->
+        <div class="input-container">
+          <label for="nombreUsuario">Usuario:</label>
+          <input type="text" id="nombreUsuario" placeholder="Nombre de Usuario" />
+        </div>
+        <div class="input-container">
+          <label for="correoElectronico">Correo:</label>
+          <input type="email" id="correoElectronico" placeholder="Correo Electrónico" />
+        </div>
+
+        <textarea
+          name="texto"
+          id="entradaTexto"
+          cols="30"
+          rows="10"
+          placeholder="Ingrese el texto aquí"
+        ></textarea>
+
+        <div class="group1">
+          <div class="advertising">
+            <figure class="adv">
+              <img
+                src="./assets/Vector interrogacion.png"
+                alt="signo de advertencia"
+              />
+              <p>Ingresa tus credenciales</p>
+            </figure>
+          </div>
+          <div class="buttons">
+            <button class="primary-button encriptar" onclick="encryptText()">Encriptar</button>
+            <button class="secondary-button desencriptar" onclick="decryptText()">Desencriptar</button>
+
+            <!-- Agrega el botón "Guardar" -->
+            <button class="primary-button guardar" onclick="guardarDatos()">Guardar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modificación para mostrar la imagen "dibujo.png" -->
+      <div class="subcontainer2">
+        <div class="card-container">
+          <div class="card">
+            <div class="card-body">
+              <img src="assets/dibujo.png" alt="Dibujo" id="resultadoImagen" style="cursor: pointer;" />
+              <h3 class="card-title" id="tituloResultado"></h3>
+              <p class="card-text" id="resultadoTexto">
+                <img src="assets/Muñeco.png" alt="Muñeco" style="max-width: 100%; height: auto; display: none;" />
+              </p>
+              <button class="copiar" onclick="copyText()" style="display: none;">Copiar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div id="creatorName">
+        DATASAFE
+      </div>
+      <div id="social-medias">
+        <ul>
+          <li>
+            <a href="https://github.com/AlbertDogo">
+              <img src="./assets/github.png" alt="github" />
+            </a>
+          </li>
+          <li>
+            <a href="https://www.linkedin.com/in/kevin-alberto-lopez-tojin-7101a91b6">
+              <img src="./assets/linkedin.png" alt="linkedin" />
+            </a>
+          </li>
+          <li>
+            <a href="https://twitter.com">
+              <img src="./assets/twitter.png" alt="twitter" />
+            </a>
+          </li>
+          <li>
+            <a href="https://www.youtube.com">
+              <img src="./assets/youtube.png" alt="youtube" />
+            </a>
+          </li>
+        </ul>
+      </div>
+    </footer>
+
+    <!-- ... (código HTML previo) ... -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.js"></script>
+    <script>
+      // Función para encriptar el texto
+      function encryptText() {
+        const textToEncrypt = document.getElementById('entradaTexto').value;
+        const encryptionKey = 'tu_clave_secreta'; // Reemplaza con tu clave secreta
+
+        // Utiliza AES para encriptar el texto
+        const encryptedText = CryptoJS.AES.encrypt(textToEncrypt, encryptionKey).toString();
+
+        // Oculta la imagen de resultado y muestra el texto encriptado
+        document.getElementById('resultadoImagen').style.display = 'none';
+        document.getElementById('tituloResultado').textContent = 'Texto encriptado:';
+        document.getElementById('resultadoTexto').textContent = encryptedText;
+        document.querySelector('.copiar').style.display = 'inline-block';
+      }
+
+      // Función para desencriptar el texto
+      function decryptText() {
+        const encryptedText = document.getElementById('entradaTexto').value;
+        const encryptionKey = 'tu_clave_secreta'; // Reemplaza con tu clave secreta
+
+        try {
+          // Utiliza AES para desencriptar el texto
+          const decryptedBytes = CryptoJS.AES.decrypt(encryptedText, encryptionKey);
+          const decryptedText = decryptedBytes.toString(CryptoJS.enc.Utf8);
+
+          // Oculta la imagen de resultado y muestra el texto desencriptado
+          document.getElementById('resultadoImagen').style.display = 'none';
+          document.getElementById('tituloResultado').textContent = 'Texto desencriptado:';
+          document.getElementById('resultadoTexto').textContent = decryptedText;
+          document.querySelector('.copiar').style.display = 'inline-block';
+        } catch (error) {
+          // En caso de error, muestra un mensaje de error y vuelve a ocultar la imagen
+          document.getElementById('resultadoImagen').style.display = 'none';
+          document.getElementById('tituloResultado').textContent = 'Error al desencriptar el texto. Asegúrate de usar la clave correcta.';
+          document.getElementById('resultadoTexto').textContent = '';
+          document.querySelector('.copiar').style.display = 'none';
+        }
+      }
+
+      // Función para copiar el texto encriptado o desencriptado
+      function copyText() {
+        const resultadoTexto = document.getElementById('resultadoTexto');
+        const textToCopy = resultadoTexto.textContent;
+
+        // Crea un elemento de textarea para copiar el texto
+        const textArea = document.createElement('textarea');
+        textArea.value = textToCopy;
+
+        // Agrega el elemento de textarea al DOM
+        document.body.appendChild(textArea);
+
+        // Selecciona y copia el texto
+        textArea.select();
+        document.execCommand('copy');
+
+        // Remueve el elemento de textarea del DOM
+        document.body.removeChild(textArea);
+
+        // Muestra una notificación de copiado exitoso
+        alert('Texto copiado al portapapeles: ' + textToCopy);
+      }
+
+      // Función para recargar la página
+      function resetPage() {
+        location.reload(); // Esto recargará la página
+      }
+
+      // Asigna la función resetPage al evento click de la imagen "Vector.png"
+      document.getElementById('resultadoImagen').addEventListener('click', resetPage);
+
+      // Función para guardar los datos en un archivo de texto
+      function guardarDatos() {
+        // Obtener los valores de los campos de entrada
+        const nombreUsuario = document.getElementById('nombreUsuario').value;
+        const correoElectronico = document.getElementById('correoElectronico').value;
+
+        // Obtener el texto encriptado (previamente calculado en la función de encriptación)
+        const textoEncriptado = document.getElementById('resultadoTexto').textContent;
+
+        // Crear el contenido del archivo de texto
+        const contenidoArchivo = `Usuario: ${nombreUsuario}\nCorreo: ${correoElectronico}\nPassword: ${textoEncriptado}`;
+
+        // Crear un objeto Blob con el contenido
+        const blob = new Blob([contenidoArchivo], { type: 'text/plain' });
+
+        // Crear un enlace para descargar el archivo
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'datos.txt';
+
+        // Simular un clic en el enlace para iniciar la descarga
+        a.click();
+
+        // Liberar el objeto Blob
+        URL.revokeObjectURL(url);
+      }
+
+      // Función para generar una contraseña aleatoria (debes implementarla según tus necesidades)
+      function generarContrasenaAleatoria() {
+        // Implementa la generación de contraseñas aleatorias aquí
+        return 'ContraseñaAleatoria123';
+      }
+
+      // Función para encriptar texto (debes implementarla según tus necesidades)
+      function encriptarTexto(texto) {
+        // Implementa la encriptación de texto aquí
+        return texto;
+      }
+
+      async function guardarDatos() {
+  const nombreUsuario = document.getElementById('nombreUsuario').value;
+  const correoElectronico = document.getElementById('correoElectronico').value;
+  const contrasena = generarContrasenaAleatoria(); // O cómo quieras generar la contraseña
+
+  const data = {
+    usuario: nombreUsuario,
+    correo: correoElectronico,
+    contrasena: contrasena,
+  };
+
+  try {
+    const response = await fetch('http://localhost:3000/guardar', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (response.ok) {
+      alert('Datos guardados exitosamente');
+    } else {
+      alert('Error al guardar datos');
+    }
+  } catch (error) {
+    console.error('Hubo un error al hacer la petición:', error);
+  }
+}
+
+
+    </script>
+  </body>
+</html>
